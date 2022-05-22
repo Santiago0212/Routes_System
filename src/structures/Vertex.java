@@ -33,11 +33,12 @@ public class Vertex<T> {
 		this.value = value;
 		this.dad = null;
 		this.adjacencyList = new ArrayList<>();
+		this.edges = new ArrayList<>();
 	}
 	
-	public void addAdjacency(Vertex<T> vertex) {
+	public void addAdjacency(Vertex<T> vertex, int weight) {
 		this.adjacencyList.add(vertex);
-		edges.add(new Edge<T>(this,vertex));
+		edges.add(new Edge<T>(this,vertex, weight));
 	}
 
 	public T getValue() {

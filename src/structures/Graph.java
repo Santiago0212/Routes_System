@@ -19,13 +19,13 @@ public class Graph<T extends Comparable<T>> {
 		}
 	}
 	
-	public void addEdge(T v1, T v2) {
+	public void addEdge(T v1, T v2, int weight) {
 		Vertex<T> vertex1 = this.search(v1);
 		Vertex<T> vertex2 = this.search(v2);
 		
 		if(!vertex1.getAdjacencyList().contains(vertex2) && !vertex2.getAdjacencyList().contains(vertex1)) {
-			vertex1.getAdjacencyList().add(vertex2);
-			vertex2.getAdjacencyList().add(vertex1);		
+			vertex1.addAdjacency(vertex2, weight);
+			vertex2.addAdjacency(vertex1, weight);	
 		}
 		
 	}
@@ -33,6 +33,14 @@ public class Graph<T extends Comparable<T>> {
 	public void print() {
 		for(Vertex<T> v : graph) {
 			System.out.println(v.getValue()+": "+v.getAdjacency());
+		}
+	}
+	
+	public void printEdges() {
+		for(Vertex<T> v : graph) {
+			for(Edge<T> e : v.getEdges()) {
+				System.out.println("V1: "+e.getVertex1().getValue()+" V2: "+e.getVertex2().getValue()+" W: "+e.getWeight());
+			}
 		}
 	}
 	
@@ -64,7 +72,11 @@ public class Graph<T extends Comparable<T>> {
 		return graph;
 	}
 	
-	public void BFS() {
+	public Vertex<T> BFS(T searchingValue) {
+		
+		Vertex<T> searchingVertex = new Vertex<T>(searchingValue);
+		
+		Vertex<T> foundedVertex = null;
 		
 		for(Vertex<T> v : this.getElements()) {
 			v.setColor(Color.WHITE);
@@ -81,6 +93,10 @@ public class Graph<T extends Comparable<T>> {
 			queue.peek().setColor(Color.BLACK);
 			for(Vertex<T> v : queue.peek().getAdjacencyList()) {
 				if(v.getColor().equals(Color.WHITE)) {
+					if(v.getValue().compareTo(searchingVertex.getValue())==0) {
+						foundedVertex = v;
+					}
+					
 					v.setColor(Color.GRAY);
 					v.setDad(queue.peek());
 					queue.offer(v);
@@ -89,43 +105,28 @@ public class Graph<T extends Comparable<T>> {
 			queue.poll();
 		}
 		
-		boolean stronglyConnected = true;
-		
-		for(Vertex<T> v : this.getElements()) {
-			if(!v.getColor().equals(Color.BLACK)) {
-				stronglyConnected = false;
-			}
-		}
-		
-		if(stronglyConnected) {
-			System.out.println("Strongly connected");
-		} else {
-			System.out.println("Not strongly connected");
-		}
+		return foundedVertex;
 		
 	}
 	
-	public ArrayList<Edge<T>> diztra(Vertex<T> start,Vertex<T> fin){
+	public ArrayList<Edge<T>> fasterWay(T start,T destination){
         ArrayList<Edge<T>> way = new ArrayList<Edge<T>>();
-
-        return diztra(start,fin,way);
+        
+        Vertex<T> startVertex = search(start);
+        
+        Vertex<T> destinationVertex = search(destination); 
+        
+        return dijkstra(startVertex,destinationVertex,way);
     }
 
-    private ArrayList<Edge<T>> diztra(Vertex<T> start,Vertex<T> fin,ArrayList<Edge<T>> way){
+    private ArrayList<Edge<T>> dijkstra(Vertex<T> start,Vertex<T> fin,ArrayList<Edge<T>> way){
         ArrayList<Edge<T>> aristaArray = start.getEdges();
-        Edge<T> min = null;
-        for(Edge<T> a : aristaArray) {
-        	if(a.isInTheWay()) {
-                min = a;
-               break;
-           }
-        }
+        Edge<T> min = aristaArray.get(0);
+
             
         for(int i=0;i< aristaArray.size();i++) {
-            if(aristaArray.get(i).isInTheWay()) {
-                if(aristaArray.get(i).getWeight()<min.getWeight()) {
-                    min=aristaArray.get(i);
-                }
+            if(aristaArray.get(i).getWeight()<min.getWeight()) {
+                min=aristaArray.get(i);
             }
         }
 
@@ -144,7 +145,7 @@ public class Graph<T extends Comparable<T>> {
              next = min.getVertex1();
         }
         
-        return diztra(next,fin,way);
+        return dijkstra(next,fin,way);
     }
 
 }

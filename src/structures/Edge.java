@@ -5,9 +5,13 @@ public class Edge<T> {
 	private Vertex<T> vertex2;
 	private double weight;
 	
-	public Edge(Vertex<T> vertex1, Vertex<T> vertex2) {
+	
+	private boolean inTheWay;
+	
+	public Edge(Vertex<T> vertex1, Vertex<T> vertex2, int weight) {
 		this.vertex1 = vertex1;
 		this.vertex2 = vertex2;
+		this.weight = weight;
 	}
 
 	public Vertex<T> getVertex1() {
@@ -34,6 +38,14 @@ public class Edge<T> {
 		this.weight = weight;
 	}
 	
+	public boolean isInTheWay() {
+		
+		
+		return inTheWay;
+	}
 	
+	public void setInTheWay(boolean inTheWay) {
+		this.inTheWay = inTheWay;
+	}
 
 }
