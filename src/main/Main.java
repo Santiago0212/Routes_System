@@ -28,15 +28,16 @@ public class Main {
 		
 		
 		routes.printEdges();
+		
 	
 		
-		ArrayList<Edge<String>> fasterWay = routes.fasterWay("Chiminangos", "Salomia");
+		/*ArrayList<Edge<String>> fasterWay = routes.fasterWay("Chiminangos", "Salomia");
 		
 		System.out.println("");
 		
 		for(Edge<String> e : fasterWay) {
 			System.out.println(e.getVertex1().getValue()+" "+e.getVertex2().getValue());
-		}
+		}*/
 		
 		
 		
