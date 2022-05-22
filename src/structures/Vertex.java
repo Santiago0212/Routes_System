@@ -6,8 +6,9 @@ public class Vertex<T> {
 	T value;
 	Color color;
 	Vertex<T> dad;
-	
+
 	ArrayList<Vertex<T>> adjacencyList;
+	ArrayList<Edge<T>> edges;
 	
 	int d;//tiempo de descubrimiento
 	int f;//tiempo de finali
@@ -36,6 +37,7 @@ public class Vertex<T> {
 	
 	public void addAdjacency(Vertex<T> vertex) {
 		this.adjacencyList.add(vertex);
+		edges.add(new Edge<T>(this,vertex));
 	}
 
 	public T getValue() {
@@ -78,5 +80,15 @@ public class Vertex<T> {
 		}
 		return adjacency;
 	}
+
+	public ArrayList<Edge<T>> getEdges() {
+		return edges;
+	}
+
+	public void setEdges(ArrayList<Edge<T>> edges) {
+		this.edges = edges;
+	}
+	
+	
 		
 }

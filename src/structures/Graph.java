@@ -19,12 +19,13 @@ public class Graph<T extends Comparable<T>> {
 		}
 	}
 	
-	public void addEdge(T source, T destination) {
-		Vertex<T> sourceVertex = this.search(source);
-		Vertex<T> destinationVertex = this.search(destination);
+	public void addEdge(T v1, T v2) {
+		Vertex<T> vertex1 = this.search(v1);
+		Vertex<T> vertex2 = this.search(v2);
 		
-		if(!sourceVertex.getAdjacencyList().contains(destinationVertex)) {
-			sourceVertex.getAdjacencyList().add(destinationVertex);
+		if(!vertex1.getAdjacencyList().contains(vertex2) && !vertex2.getAdjacencyList().contains(vertex1)) {
+			vertex1.getAdjacencyList().add(vertex2);
+			vertex2.getAdjacencyList().add(vertex1);		
 		}
 		
 	}
@@ -104,40 +105,45 @@ public class Graph<T extends Comparable<T>> {
 		
 	}
 	
-	public ArrayList<Arista> diztra(Vertex start,Vertex fin){
-        ArrayList<Arista> way = new ArrayList<Arista>();
+	public ArrayList<Edge<T>> diztra(Vertex<T> start,Vertex<T> fin){
+        ArrayList<Edge<T>> way = new ArrayList<Edge<T>>();
 
         return diztra(start,fin,way);
     }
 
-    private ArrayList<Arista> diztra(Vertex start,Vertex fin,ArrayList<Arista> way){
-        ArrayList<Arista> aristaArray = start.getAristas();
-        Arista min = null;
-        for(Arista a : aristaArray)
-            if(a.isInTheWay()) {
-                 min = a;
-                break;
-            }
+    private ArrayList<Edge<T>> diztra(Vertex<T> start,Vertex<T> fin,ArrayList<Edge<T>> way){
+        ArrayList<Edge<T>> aristaArray = start.getEdges();
+        Edge<T> min = null;
+        for(Edge<T> a : aristaArray) {
+        	if(a.isInTheWay()) {
+                min = a;
+               break;
+           }
+        }
+            
         for(int i=0;i< aristaArray.size();i++) {
             if(aristaArray.get(i).isInTheWay()) {
-                if(aristaArray.get(i).getWeight()<min.getWeight) {
+                if(aristaArray.get(i).getWeight()<min.getWeight()) {
                     min=aristaArray.get(i);
                 }
             }
         }
 
         way.add(min);
-        if(min.getRight()==fin||min.getLeft==fin)
-            return way;
+        
+        if(min.getVertex1()==fin||min.getVertex2()==fin) {
+        	return way;
+        }
+            
 
-        Arista next = null;
-        if(min.getRight()==start) {
-            next = min.getLeft();
+        Vertex<T> next = null;
+        if(min.getVertex1()==start) {
+            next = min.getVertex2();
         }
         else {
-             next = min.getRight();
-
+             next = min.getVertex1();
         }
+        
         return diztra(next,fin,way);
     }
 
