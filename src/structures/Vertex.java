@@ -8,6 +8,8 @@ public class Vertex<T> {
 	Vertex<T> dad;
 
 	ArrayList<Vertex<T>> adjacencyList;
+
+	private ArrayList<Edge<T>> adjacencyEdges;
 	
 	int d;//tiempo de descubrimiento
 	int f;//tiempo de finali
@@ -32,10 +34,12 @@ public class Vertex<T> {
 		this.value = value;
 		this.dad = null;
 		this.adjacencyList = new ArrayList<>();
+		this.adjacencyEdges = new ArrayList<>();
 	}
 	
 	public void addAdjacency(Vertex<T> vertex, int weight) {
 		this.adjacencyList.add(vertex);
+		adjacencyEdges.add(new Edge(new Vertex(getValue()),vertex,weight));
 	}
 
 	public T getValue() {

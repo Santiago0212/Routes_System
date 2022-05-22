@@ -35,7 +35,18 @@ public class Graph<T extends Comparable<T>> {
 			vertex1.addAdjacency(vertex2, weight);
 			vertex2.addAdjacency(vertex1, weight);	
 		}
-		
+	}
+	
+	public int getWeight(Vertex<T> vertex1,Vertex<T> vertex2) {
+		int weight=0;
+		for(int i=0;i<edgeGraph.size();i++) {
+			if(edgeGraph.get(i).getVertex1()==vertex1) {
+				if(edgeGraph.get(i).getVertex2()==vertex2) {
+					weight=edgeGraph.get(i).getWeight();
+				}
+			}
+		}
+		return weight;
 	}
 	
 	public void print() {
@@ -49,6 +60,12 @@ public class Graph<T extends Comparable<T>> {
 			System.out.println("V1: "+e.getVertex1().getValue()+" V2: "+e.getVertex2().getValue()+" W: "+e.getWeight());
 		}
 		
+	}
+	
+	public void printDistancias() {
+		for(Vertex<T> v : verticesGraph) {
+			System.out.println(v.getValue()+"---"+distancias.get(v));
+		}
 	}
 	
 	public Vertex<T> search(T value){
@@ -115,5 +132,72 @@ public class Graph<T extends Comparable<T>> {
 		return foundedVertex;
 		
 	}
+	
+	private HashMap<Vertex<T>,Integer> distancias;
+	
+	public void initDijktra(Vertex<T> current) {
+		for(Vertex<T> v : this.getElements()) {
+			v.setColor(Color.WHITE);
+		}
+		
+
+		distancias=new  HashMap<Vertex<T>,Integer>();
+		
+		for(int i=0;i<verticesGraph.size();i++) {
+			if(verticesGraph.get(i).equals(current)) {
+				distancias.put(verticesGraph.get(i),0);
+			}else {
+				distancias.put(verticesGraph.get(i),Integer.MAX_VALUE);
+			}
+		}
+		dijkstra(current);
+	}
+	
+	public void dijkstra(Vertex<T> current) {
+		
+		
+		for(int i=0;i<current.getAdjacencyList().size();i++) {
+			Vertex<T> aux=current.getAdjacencyList().get(i);
+			
+			int distanciaActual=distancias.get(current);
+			
+			int weight=getWeight(current, aux);
+			
+			if((distanciaActual+weight)<distancias.get(aux)) {
+				distancias.remove(aux);
+				distancias.put(aux, distanciaActual+weight);
+			}
+		}
+		current.setColor(Color.BLACK);
+
+		Vertex<T> siguiente=null;
+		for(int i=0;i<current.getAdjacencyList().size();i++) {
+			if(i==0) {
+				if(current.getAdjacencyList().get(i).getColor()==Color.WHITE) {
+					siguiente=current.getAdjacencyList().get(i);
+				}
+			}else if(siguiente!=null){
+				if(distancias.get(siguiente)>distancias.get(current.getAdjacencyList().get(i)) && current.getAdjacencyList().get(i).getColor()==Color.WHITE) {
+					siguiente=current.getAdjacencyList().get(i);
+				}
+			}else {
+				if(current.getAdjacencyList().get(i).getColor()==Color.WHITE) {
+					siguiente=current.getAdjacencyList().get(i);
+				}
+			}
+		}
+		if(siguiente!=null) {
+			dijkstra(siguiente);
+		}
+	}
+
+	public HashMap<Vertex<T>, Integer> getDistancias() {
+		return distancias;
+	}
+
+	public void setDistancias(HashMap<Vertex<T>, Integer> distancias) {
+		this.distancias = distancias;
+	}
+	
 	
 }

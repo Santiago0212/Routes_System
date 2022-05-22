@@ -3,7 +3,7 @@ package structures;
 public class Edge<T> {
 	private Vertex<T> vertex1;
 	private Vertex<T> vertex2;
-	private double weight;
+	private int weight;
 	
 	
 	private boolean inTheWay;
@@ -30,11 +30,11 @@ public class Edge<T> {
 		this.vertex2 = v2;
 	}
 
-	public double getWeight() {
+	public int getWeight() {
 		return weight;
 	}
 
-	public void setWeight(double weight) {
+	public void setWeight(int weight) {
 		this.weight = weight;
 	}
 	
