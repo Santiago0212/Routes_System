@@ -103,5 +103,42 @@ public class Graph<T extends Comparable<T>> {
 		}
 		
 	}
+	
+	public ArrayList<Arista> diztra(Vertex start,Vertex fin){
+        ArrayList<Arista> way = new ArrayList<Arista>();
+
+        return diztra(start,fin,way);
+    }
+
+    private ArrayList<Arista> diztra(Vertex start,Vertex fin,ArrayList<Arista> way){
+        ArrayList<Arista> aristaArray = start.getAristas();
+        Arista min = null;
+        for(Arista a : aristaArray)
+            if(a.isInTheWay()) {
+                 min = a;
+                break;
+            }
+        for(int i=0;i< aristaArray.size();i++) {
+            if(aristaArray.get(i).isInTheWay()) {
+                if(aristaArray.get(i).getWeight()<min.getWeight) {
+                    min=aristaArray.get(i);
+                }
+            }
+        }
+
+        way.add(min);
+        if(min.getRight()==fin||min.getLeft==fin)
+            return way;
+
+        Arista next = null;
+        if(min.getRight()==start) {
+            next = min.getLeft();
+        }
+        else {
+             next = min.getRight();
+
+        }
+        return diztra(next,fin,way);
+    }
 
 }
