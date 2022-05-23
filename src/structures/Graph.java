@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Graph<T extends Comparable<T>> {
@@ -64,7 +66,12 @@ public class Graph<T extends Comparable<T>> {
 	
 	public void printDistancias() {
 		for(Vertex<T> v : verticesGraph) {
-			System.out.println(v.getValue()+"---"+distancias.get(v));
+			System.out.println(v.getValue()+"(-)"+distancias.get(v));
+		}
+		for(int i=0;i<arregloCamino.size();i++) {
+			if(distancias.get(arregloCamino.get(i).getVertex2())<arregloCamino.get(i).getWeight()) {
+				arregloCamino.remove(i);
+			}
 		}
 	}
 	
@@ -134,14 +141,17 @@ public class Graph<T extends Comparable<T>> {
 	}
 	
 	private HashMap<Vertex<T>,Integer> distancias;
+	private ArrayList<Edge<T>> arregloCamino;
 	
 	public void initDijktra(Vertex<T> current) {
+		
 		for(Vertex<T> v : this.getElements()) {
 			v.setColor(Color.WHITE);
 		}
 		
 
 		distancias=new  HashMap<Vertex<T>,Integer>();
+		arregloCamino=new ArrayList<Edge<T>>();
 		
 		for(int i=0;i<verticesGraph.size();i++) {
 			if(verticesGraph.get(i).equals(current)) {
@@ -156,14 +166,27 @@ public class Graph<T extends Comparable<T>> {
 	public void dijkstra(Vertex<T> current) {
 		
 		
+		
+		
 		for(int i=0;i<current.getAdjacencyList().size();i++) {
 			Vertex<T> aux=current.getAdjacencyList().get(i);
+			
 			
 			int distanciaActual=distancias.get(current);
 			
 			int weight=getWeight(current, aux);
 			
+			
+			
 			if((distanciaActual+weight)<distancias.get(aux)) {
+				
+				for(int j=0;j<current.getAdjacencyEdges().size();j++) {
+					if(current.getAdjacencyEdges().get(j).getVertex2()==aux) {
+						arregloCamino.add(current.getAdjacencyEdges().get(j));
+					}
+				}
+				
+				System.out.println(current.getValue()+"-"+aux.getValue());
 				distancias.remove(aux);
 				distancias.put(aux, distanciaActual+weight);
 			}
@@ -186,6 +209,7 @@ public class Graph<T extends Comparable<T>> {
 				}
 			}
 		}
+		
 		if(siguiente!=null) {
 			dijkstra(siguiente);
 		}
@@ -198,6 +222,14 @@ public class Graph<T extends Comparable<T>> {
 	public void setDistancias(HashMap<Vertex<T>, Integer> distancias) {
 		this.distancias = distancias;
 	}
-	
+
+	public ArrayList<Edge<T>> getArregloCamino() {
+		return arregloCamino;
+	}
+
+	public void setArregloCamino(ArrayList<Edge<T>> arregloCamino) {
+		this.arregloCamino = arregloCamino;
+	}
+
 	
 }

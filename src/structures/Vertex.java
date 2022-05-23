@@ -82,6 +82,16 @@ public class Vertex<T> {
 		}
 		return adjacency;
 	}
+
+	public ArrayList<Edge<T>> getAdjacencyEdges() {
+		return adjacencyEdges;
+	}
+
+	public void setAdjacencyEdges(ArrayList<Edge<T>> adjacencyEdges) {
+		this.adjacencyEdges = adjacencyEdges;
+	}
+	
+	
 	
 		
 }
