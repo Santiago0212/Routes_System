@@ -3,9 +3,6 @@ package structures;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Graph<T extends Comparable<T>> {
@@ -30,8 +27,8 @@ public class Graph<T extends Comparable<T>> {
 		Vertex<T> vertex2 = this.search(v2);
 		
 		if(!vertex1.getAdjacencyList().contains(vertex2) && !vertex2.getAdjacencyList().contains(vertex1)) {
-			Edge edge1=new Edge(vertex1,vertex2,weight);
-			Edge edge2=new Edge(vertex2,vertex1,weight);
+			Edge<T> edge1=new Edge<T>(vertex1,vertex2,weight);
+			Edge<T> edge2=new Edge<T>(vertex2,vertex1,weight);
 			edgeGraph.add(edge1);
 			edgeGraph.add(edge2);
 			vertex1.addAdjacency(vertex2, weight);
@@ -164,10 +161,6 @@ public class Graph<T extends Comparable<T>> {
 	}
 	
 	public void dijkstra(Vertex<T> current) {
-		
-		
-		
-		
 		for(int i=0;i<current.getAdjacencyList().size();i++) {
 			Vertex<T> aux=current.getAdjacencyList().get(i);
 			

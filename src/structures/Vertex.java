@@ -39,7 +39,7 @@ public class Vertex<T> {
 	
 	public void addAdjacency(Vertex<T> vertex, int weight) {
 		this.adjacencyList.add(vertex);
-		adjacencyEdges.add(new Edge(new Vertex(getValue()),vertex,weight));
+		adjacencyEdges.add(new Edge<T>(new Vertex<T>(getValue()),vertex,weight));
 	}
 
 	public T getValue() {
