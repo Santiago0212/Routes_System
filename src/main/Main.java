@@ -2,18 +2,25 @@ package main;
 
 import java.util.ArrayList;
 
+import control.MenuController;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import structures.Edge;
 import structures.Graph;
-import structures.Vertex;
 
-public class Main {
-
+public class Main extends Application{
+	public static Graph<String> routes = new Graph<>();
 	public static void main(String[] args) {
-		Graph<String> routes = new Graph<>();
-		Graph<String> routes2 = new Graph<>();
 		
 		
-		routes.addVertex("Chiminangos");
+		launch(args);
+		//Graph<String> routes2 = new Graph<>();
+		
+		
+		/*routes.addVertex("Chiminangos");
 		routes.addVertex("Flora Industrial");
 		routes.addVertex("Salomia");
 		routes.addVertex("Torre de Cali");
@@ -28,7 +35,7 @@ public class Main {
 		routes.addEdge("Torre de Cali", "Estadio", 15);
 		routes.addEdge("Estadio", "Universidades", 15);
 		routes.addEdge("Torre de Cali", "Unidad Deportiva", 5);
-		routes.addEdge("Unidad Deportiva", "Universidades", 5);
+		routes.addEdge("Unidad Deportiva", "Universidades", 5);*/
 		
 		/*routes.addVertex("Libreria gadner");
 		routes.addVertex("Libreria Euler");
@@ -107,5 +114,15 @@ public class Main {
 		
 		
 	}
-
+	
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		FXMLLoader loader = new FXMLLoader(Main.class.getResource("../ui/Menu.fxml"));
+		loader.setController(new MenuController());
+		Parent parent = (Parent) loader.load();
+		Scene scene = new Scene(parent);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.show();
+	}
 }
