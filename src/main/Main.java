@@ -81,11 +81,7 @@ public class Main extends Application{
 		System.out.println("-----------------------");
 		
 		
-		routes.initDijktra(routes.search("Chiminangos"));
-
-		System.out.println("------------DISTANCIAS MINIMAS DESDE EL VERTICE ELEGIDO------------------------");
-		routes.printDistancias();
-		System.out.println("-------------------------------");
+		
 		
 		
 		

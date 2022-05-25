@@ -35,8 +35,15 @@ public class MenuController {
     }
 
     @FXML
-    void find(ActionEvent event) {
-
+    void find(ActionEvent event) throws IOException {
+    	FXMLLoader loader = new FXMLLoader(Main.class.getResource("../ui/Find.fxml"));
+		loader.setController(new FindController());
+		Parent parent = (Parent) loader.load();
+		Scene scene = new Scene(parent);
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.show();
+		close();
     }
 
     @FXML
