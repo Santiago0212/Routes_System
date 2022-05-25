@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import main.Main;
 
-public class StartController {
+public class AddController {
 
     @FXML
     private Button addVertexButton;

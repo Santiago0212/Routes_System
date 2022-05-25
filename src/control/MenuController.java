@@ -1,6 +1,7 @@
 package control;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import main.Main;
+import structures.Edge;
 
 public class MenuController {
 
@@ -24,8 +26,8 @@ public class MenuController {
 
     @FXML
     void add(ActionEvent event) throws IOException {
-    	FXMLLoader loader = new FXMLLoader(Main.class.getResource("../ui/Start.fxml"));
-		loader.setController(new StartController());
+    	FXMLLoader loader = new FXMLLoader(Main.class.getResource("../ui/Add.fxml"));
+		loader.setController(new AddController());
 		Parent parent = (Parent) loader.load();
 		Scene scene = new Scene(parent);
 		Stage stage = new Stage();
@@ -48,7 +50,18 @@ public class MenuController {
 
     @FXML
     void show(ActionEvent event) {
+    	Main.routes.printEdges();
+	
+		ArrayList<Edge<String>> arregloCamino= new ArrayList<Edge<String>>();
+		arregloCamino=Main.routes.getArregloCamino();
+		
+		ArrayList<String> camino= new ArrayList<String>();
+		
+		System.out.println("------------ARISTAS PARA EL ARBOL------------------------");
 
+		for(int i=0;i<arregloCamino.size();i++) {
+			System.out.println(arregloCamino.get(i).getVertex1().getValue()+"()"+arregloCamino.get(i).getWeight()+"()"+arregloCamino.get(i).getVertex2().getValue());
+		}
     }
     
     public void close() {

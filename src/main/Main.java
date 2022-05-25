@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 
 import control.MenuController;
 import javafx.application.Application;
@@ -8,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import structures.Edge;
 import structures.Graph;
 
 public class Main extends Application{
@@ -77,25 +75,7 @@ public class Main extends Application{
 		
 		
 		
-		routes.printEdges();
-		System.out.println("-----------------------");
 		
-		
-		
-		
-		
-		
-		
-		ArrayList<Edge<String>> arregloCamino= new ArrayList<Edge<String>>();
-		arregloCamino=routes.getArregloCamino();
-		
-		ArrayList<String> camino= new ArrayList<String>();
-		
-		System.out.println("------------ARISTAS PARA EL ARBOL------------------------");
-
-		for(int i=0;i<arregloCamino.size();i++) {
-			System.out.println(arregloCamino.get(i).getVertex1().getValue()+"()"+arregloCamino.get(i).getWeight()+"()"+arregloCamino.get(i).getVertex2().getValue());
-		}
 		
 		
 		/*ArrayList<Edge<String>> fasterWay = routes.fasterWay("Chiminangos", "Salomia");
