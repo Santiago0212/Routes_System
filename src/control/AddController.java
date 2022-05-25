@@ -36,21 +36,31 @@ public class AddController {
     @FXML
     void addEdge(ActionEvent event) {
 
-    	if(!v1Text.getText().equals("")&&!v2Text.getText().equals("")&&!weightText.getText().equals(""))
-    		try {
-    			Main.routes.addEdge(v1Text.getText(),v2Text.getText(),Integer.parseInt(weightText.getText()));
-    			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    	if(!v1Text.getText().equals("")&&!v2Text.getText().equals("")&&!weightText.getText().equals("")) {
+    		
+    		if(Main.routes.search(v1Text.getText())!=null&Main.routes.search(v2Text.getText())!=null)
+	    		try {
+	    			Main.routes.addEdge(v1Text.getText(),v2Text.getText(),Integer.parseInt(weightText.getText()));
+	    			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+	    		    alert.setHeaderText(null);
+	    		    alert.setTitle("Agregado");
+	    		    alert.setContentText("Se agrego su conexión exitosamente");
+	    		    alert.showAndWait();
+	    		}catch(NumberFormatException ex) {
+	    			Alert alert = new Alert(Alert.AlertType.ERROR);
+	    		    alert.setHeaderText(null);
+	    		    alert.setTitle("Error");
+	    		    alert.setContentText("El peso debe ser un numero entero");
+	    		    alert.showAndWait();
+	    		}
+    		else {
+    			Alert alert = new Alert(Alert.AlertType.WARNING);
     		    alert.setHeaderText(null);
-    		    alert.setTitle("Agregado");
-    		    alert.setContentText("Se agrego su conexión exitosamente");
-    		    alert.showAndWait();
-    		}catch(NumberFormatException ex) {
-    			Alert alert = new Alert(Alert.AlertType.ERROR);
-    		    alert.setHeaderText(null);
-    		    alert.setTitle("Error");
-    		    alert.setContentText("El peso debe ser un numero entero");
+    		    alert.setTitle("Advertencia");
+    		    alert.setContentText("Algun o ambas estaciones que intentas conectar no se han creado aun");
     		    alert.showAndWait();
     		}
+    	}
     	else {
     		Alert alert = new Alert(Alert.AlertType.ERROR);
 		    alert.setHeaderText(null);
