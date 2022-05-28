@@ -1,5 +1,9 @@
 package main;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import structures.Graph;
@@ -12,63 +16,55 @@ public class Main {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		Graph<String> myGraph = new Graph<>();
-		
-		System.out.println("\nEnter the number of vertex to be entered in the graph: ");
-		int numVertex=sc.nextInt();
-		sc.nextLine();
-		
-		for(int i=0;i<numVertex;i++) {
-			System.out.print("Vertex "+(i+1)+" -> ");
-			String vertex=sc.nextLine();
-			myGraph.addVertex(vertex);
-		}
-		
-		System.out.println("\nEnter the number of edges to be entered in the graph: ");
-		int numEdges=sc.nextInt();
-		
-		sc.nextLine();
-		for(int i=0;i<numEdges;i++) {
-			System.out.println("Edge "+(i+1)+": ");
-			System.out.print("First vertex -> ");
-			String edge1=sc.nextLine();
-			System.out.println("Second vertex -> ");
-			String edge2=sc.nextLine();
-			System.out.println("Weight - >");
-			int weight = sc.nextInt();
-			sc.nextLine();
-			myGraph.addEdge(edge1,edge2,weight);
-		}
+		try {
+			Graph<String> myGraph = createGraph();
 			
-
-		
-		System.out.println("Wich vertex do you want to find the minimum tree?: ");
-		String vertex = sc.nextLine();
-		
-		
-		myGraph.initDijkstra(myGraph.search(vertex));
-		
-		Tree<String> routesTree = myGraph.getArbolGeneradorMinimo();
-		
-		System.out.println("Wich vertex do you want to find the route?: ");
-		String destination = sc.nextLine();
-		
-		ArrayList<String> route = routesTree.getRoute(destination);
-		
-		for(String s : route) {
-			System.out.println(s);
-		}
-		/*
-		ArrayList<Node<String>> preOrder = routesTree.preOrder();
-		
-		for(Node<String> s : preOrder) {
-			System.out.println("----"+s.getValue()+"----");
-			for(Node<String> c : s.getChildren()) {
-				System.out.println(c.getValue());
+			System.out.println("Wich vertex do you want to find the minimum tree?: ");
+			String vertex = sc.nextLine();
+			vertex = vertex.toUpperCase();
+			
+			myGraph.initDijkstra(myGraph.search(vertex));
+			
+			Tree<String> routesTree = myGraph.getArbolGeneradorMinimo();
+			
+			System.out.println("Wich vertex do you want to find the route?: ");
+			String destination = sc.nextLine();
+			destination = destination.toUpperCase();
+			
+			ArrayList<String> route = routesTree.getRoute(destination);
+			
+			for(String s : route) {
+				System.out.println(s);
 			}
-			System.out.println("");
-		}
-		*/
-	}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
 
+	}
+	
+	public static Graph<String> createGraph() throws IOException {
+		Graph<String> myGraph = new Graph<>();
+	
+		File data = new File("stations.txt");
+	
+		BufferedReader bf = new BufferedReader(new FileReader(data));
+	
+		int stationsNumber = Integer.parseInt(bf.readLine());
+		
+		String line;
+		for(int i=0; i<stationsNumber && (line = bf.readLine())!=null; i++) {
+			myGraph.addVertex(line);
+		}
+		
+		int connectionsNumber = Integer.parseInt(bf.readLine());
+		
+		for(int i=0; i<connectionsNumber && (line = bf.readLine())!=null; i++) {
+			String[] connection = line.split("\\|");
+			myGraph.addEdge(connection[0],connection[1], (int) Double.parseDouble(connection[2])*100);
+		}
+		
+		bf.close();
+		
+		return myGraph;
+	}
 }
