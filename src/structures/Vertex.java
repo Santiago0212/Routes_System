@@ -11,8 +11,8 @@ public class Vertex<T> {
 
 	private ArrayList<Edge<T>> adjacencyEdges;
 	
-	int d;//tiempo de descubrimiento
-	int f;//tiempo de finali
+	int d;
+	int f;
 	
 	public int getD() {
 		return d;

@@ -2,8 +2,6 @@ package structures;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class Graph<T extends Comparable<T>> {
 	
@@ -72,6 +70,7 @@ public class Graph<T extends Comparable<T>> {
 		}
 	}
 	
+	
 	public Vertex<T> search(T value){
 		boolean founded = false;
 		Vertex<T> vertex = null;
@@ -99,48 +98,12 @@ public class Graph<T extends Comparable<T>> {
 	public ArrayList<Vertex<T>> getElements(){
 		return verticesGraph;
 	}
-	
-	public Vertex<T> BFS(T searchingValue) {
 		
-		Vertex<T> searchingVertex = new Vertex<T>(searchingValue);
-		
-		Vertex<T> foundedVertex = null;
-		
-		for(Vertex<T> v : this.getElements()) {
-			v.setColor(Color.WHITE);
-		}
-		
-		Queue<Vertex<T>> queue = new LinkedList<>();
-		
-		
-		Vertex<T> initialVertex = this.getElement(0);
-		initialVertex.setColor(Color.GRAY);
-		queue.offer(initialVertex);
-			
-		while(!queue.isEmpty()) {
-			queue.peek().setColor(Color.BLACK);
-			for(Vertex<T> v : queue.peek().getAdjacencyList()) {
-				if(v.getColor().equals(Color.WHITE)) {
-					if(v.getValue().compareTo(searchingVertex.getValue())==0) {
-						foundedVertex = v;
-					}
-					
-					v.setColor(Color.GRAY);
-					v.setDad(queue.peek());
-					queue.offer(v);
-				}	
-			}
-			queue.poll();
-		}
-		
-		return foundedVertex;
-		
-	}
-	
 	private HashMap<Vertex<T>,Integer> distancias;
 	private ArrayList<Edge<T>> arregloCamino;
+	private Tree<T> arbolGeneradorMinimo;
 	
-	public void initDijktra(Vertex<T> current) {
+	public void initDijkstra(Vertex<T> initial) {
 		
 		for(Vertex<T> v : this.getElements()) {
 			v.setColor(Color.WHITE);
@@ -149,15 +112,16 @@ public class Graph<T extends Comparable<T>> {
 
 		distancias=new  HashMap<Vertex<T>,Integer>();
 		arregloCamino=new ArrayList<Edge<T>>();
+		arbolGeneradorMinimo = new Tree<T>(new Node<T>(initial.getValue()));
 		
 		for(int i=0;i<verticesGraph.size();i++) {
-			if(verticesGraph.get(i).equals(current)) {
+			if(verticesGraph.get(i).equals(initial)) {
 				distancias.put(verticesGraph.get(i),0);
 			}else {
 				distancias.put(verticesGraph.get(i),Integer.MAX_VALUE);
 			}
 		}
-		dijkstra(current);
+		dijkstra(initial);
 	}
 	
 	public void dijkstra(Vertex<T> current) {
@@ -169,17 +133,27 @@ public class Graph<T extends Comparable<T>> {
 			
 			int weight=getWeight(current, aux);
 			
-			
-			
 			if((distanciaActual+weight)<distancias.get(aux)) {
 				
 				for(int j=0;j<current.getAdjacencyEdges().size();j++) {
 					if(current.getAdjacencyEdges().get(j).getVertex2()==aux) {
 						arregloCamino.add(current.getAdjacencyEdges().get(j));
+						
+						T nodeValue = current.getAdjacencyEdges().get(j).getVertex2().getValue();
+						Node<T> node = new Node<T>(nodeValue);
+						
+						if(arbolGeneradorMinimo.find(nodeValue)!=null) {
+							arbolGeneradorMinimo.delete(node);
+						}
+
+						
+						T dadValue = current.getAdjacencyEdges().get(j).getVertex1().getValue();
+						
+						node.setDad(arbolGeneradorMinimo.find(dadValue));
+						
+						arbolGeneradorMinimo.find(dadValue).getChildren().add(node);
 					}
 				}
-				
-				System.out.println(current.getValue()+"-"+aux.getValue());
 				distancias.remove(aux);
 				distancias.put(aux, distanciaActual+weight);
 			}
@@ -224,5 +198,7 @@ public class Graph<T extends Comparable<T>> {
 		this.arregloCamino = arregloCamino;
 	}
 
-	
+	public Tree<T> getArbolGeneradorMinimo() {
+		return arbolGeneradorMinimo;
+	}
 }
