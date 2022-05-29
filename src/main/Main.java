@@ -51,14 +51,15 @@ public class Main {
 	
 		int stationsNumber = Integer.parseInt(bf.readLine());
 		
-		String line;
-		for(int i=0; i<stationsNumber && (line = bf.readLine())!=null; i++) {
-			myGraph.addVertex(line);
+
+		for(int i=0; i<stationsNumber; i++) {
+			myGraph.addVertex(bf.readLine());
 		}
 		
 		int connectionsNumber = Integer.parseInt(bf.readLine());
-		
-		for(int i=0; i<connectionsNumber && (line = bf.readLine())!=null; i++) {
+		String line;
+		for(int i=0; i<connectionsNumber; i++) {
+			line = bf.readLine();
 			String[] connection = line.split("\\|");
 			myGraph.addEdge(connection[0],connection[1], (int) Double.parseDouble(connection[2])*100);
 		}
