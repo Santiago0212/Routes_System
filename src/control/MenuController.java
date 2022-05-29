@@ -55,11 +55,6 @@ public class MenuController {
 		ArrayList<Edge<String>> arregloCamino= new ArrayList<Edge<String>>();
 		arregloCamino=Main.routes.getArregloCamino();
 		
-		System.out.println("------------ARISTAS PARA EL ARBOL------------------------");
-
-		for(int i=0;i<arregloCamino.size();i++) {
-			System.out.println(arregloCamino.get(i).getVertex1().getValue()+"()"+arregloCamino.get(i).getWeight()+"()"+arregloCamino.get(i).getVertex2().getValue());
-		}
     }
     
     public void close() {

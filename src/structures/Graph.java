@@ -121,17 +121,78 @@ public class Graph<T extends Comparable<T>> {
 				distancias.put(verticesGraph.get(i),Integer.MAX_VALUE);
 			}
 		}
-		dijkstra(initial);
+		prim(initial);
 	}
 	
+	public void prim(Vertex<T> current) {
+        for(int i=0;i<current.getAdjacencyList().size();i++) {
+            Vertex<T> aux=current.getAdjacencyList().get(i);
+
+
+            int distanciaActual=distancias.get(current);
+
+            int weight=getWeight(current, aux);
+
+            if((distanciaActual+weight)<distancias.get(aux)) {
+
+                for(int j=0;j<current.getAdjacencyEdges().size();j++) {
+                    if(current.getAdjacencyEdges().get(j).getVertex2()==aux) {
+                        arregloCamino.add(current.getAdjacencyEdges().get(j));
+                        arbolGeneradorMinimo.find(current.getAdjacencyEdges().get(j).getVertex1().getValue()).getChildren().add(new Node<T>(current.getAdjacencyEdges().get(j).getVertex2().getValue()));
+                    }
+                }
+
+                //System.out.println(current.getValue()+"-"+aux.getValue());
+                distancias.remove(aux);
+                distancias.put(aux, distanciaActual+weight);
+            }
+        }
+        current.setColor(Color.BLACK);
+
+        Vertex<T> siguiente=null;
+        for(int i=0;i<current.getAdjacencyList().size();i++) {
+            if(i==0) {
+                if(current.getAdjacencyList().get(i).getColor()==Color.WHITE) {
+                    siguiente=current.getAdjacencyList().get(i);
+                }
+            }else if(siguiente!=null){
+                if(distancias.get(siguiente)>distancias.get(current.getAdjacencyList().get(i)) && current.getAdjacencyList().get(i).getColor()==Color.WHITE) {
+                    siguiente=current.getAdjacencyList().get(i);
+                }
+            }else {
+                if(current.getAdjacencyList().get(i).getColor()==Color.WHITE) {
+                    siguiente=current.getAdjacencyList().get(i);
+                }
+            }
+        }
+
+        if(siguiente!=null) {
+            prim(siguiente);
+        }
+    }
+	
+	/*
 	public void dijkstra(Vertex<T> current) {
 		for(int i=0;i<current.getAdjacencyList().size();i++) {
-			Vertex<T> aux=current.getAdjacencyList().get(i);
+			Vertex<T> aux=current.getAdjacencyList().get(0);
 			
 			
 			int distanciaActual=distancias.get(current);
 			
 			int weight=getWeight(current, aux);
+			
+			if((distanciaActual+weight)<distancias.get(aux)) {
+
+				for(int j=0;j<current.getAdjacencyEdges().size();j++) {
+					if(current.getAdjacencyEdges().get(j).getVertex2()==aux) {
+						arregloCamino.add(current.getAdjacencyEdges().get(j));
+					}
+				}
+
+				System.out.println(current.getValue()+"-"+aux.getValue());
+				distancias.remove(aux);
+				distancias.put(aux, distanciaActual+weight);
+			}
 			
 			if((distanciaActual+weight)<distancias.get(aux)) {
 				
@@ -142,15 +203,17 @@ public class Graph<T extends Comparable<T>> {
 						T nodeValue = current.getAdjacencyEdges().get(j).getVertex2().getValue();
 						Node<T> node = new Node<T>(nodeValue);
 						
+						
 						if(arbolGeneradorMinimo.find(nodeValue)!=null) {
+							node.setDad(null);
 							arbolGeneradorMinimo.delete(node);
 						}
-
+						
 						
 						T dadValue = current.getAdjacencyEdges().get(j).getVertex1().getValue();
 						
 						node.setDad(arbolGeneradorMinimo.find(dadValue));
-						
+					
 						arbolGeneradorMinimo.find(dadValue).getChildren().add(node);
 					}
 				}
@@ -159,7 +222,7 @@ public class Graph<T extends Comparable<T>> {
 			}
 		}
 		current.setColor(Color.BLACK);
-
+		
 		Vertex<T> siguiente=null;
 		for(int i=0;i<current.getAdjacencyList().size();i++) {
 			if(i==0) {
@@ -180,7 +243,7 @@ public class Graph<T extends Comparable<T>> {
 		if(siguiente!=null) {
 			dijkstra(siguiente);
 		}
-	}
+	}*/
 
 	public HashMap<Vertex<T>, Integer> getDistancias() {
 		return distancias;
