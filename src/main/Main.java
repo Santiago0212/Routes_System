@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import control.MenuController;
 import javafx.application.Application;
@@ -12,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Station;
 import structures.Edge;
 import structures.Graph;
 import structures.Node;
@@ -19,45 +24,21 @@ import structures.Tree;
 
 public class Main extends Application {
 	
-	//public static Graph<String> routes;
+	public static Graph<String> routes;
+	public static Map<String,ArrayList<String>> buses = new HashMap<String,ArrayList<String>>();
+	public static String currentBus;
 
 	public static void main(String[] args) {
 		
 		Scanner sc = new Scanner(System.in);
 		
 		try {
-			Graph<String> routes = createGraph();
-			
-			System.out.println("Wich vertex do you want to find the minimum tree?: ");
-			String vertex = sc.nextLine();
-			vertex = vertex.toUpperCase();
-			
-			routes.initDijkstra(routes.search(vertex));
-			
-			ArrayList<Edge<String>> arregloCamino = routes.getArregloCamino();
-			
-			for(int i=0;i<arregloCamino.size();i++) {
-	           System.out.println(arregloCamino.get(i).getVertex1().getValue()+"()"+arregloCamino.get(i).getWeight()+"()"+arregloCamino.get(i).getVertex2().getValue());
-	        }
-			
-			//routes.printDistancias();
-			//routes.printEdges();
-			
-			Tree<String> routesTree = routes.getArbolGeneradorMinimo();
-			
-			System.out.println("Wich vertex do you want to find the route?: ");
-			String destination = sc.nextLine();
-			destination = destination.toUpperCase();
-			ArrayList<String> route = routesTree.getRoute(destination);
-			
-			for(String s : route) {
-				System.out.println(s);
-			}
+			routes = createGraph();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
 		
-		//launch(args);
+		launch(args);
 
 	}
 	
@@ -82,9 +63,17 @@ public class Main extends Application {
 	
 		int stationsNumber = Integer.parseInt(bf.readLine());
 		
-
 		for(int i=0; i<stationsNumber; i++) {
-			myGraph.addVertex(bf.readLine());
+			ArrayList<String> stationBuses = new ArrayList<>();
+			String[] stationData = bf.readLine().split("\\|");
+			String name = stationData[0];
+				
+			for (int j=0; j<stationData[1].split("-").length; j++){
+				stationBuses.add(stationData[1].split("-")[j]);
+	        }
+			
+			buses.put(name, stationBuses);
+			myGraph.addVertex(name,i);
 		}
 		
 		int connectionsNumber = Integer.parseInt(bf.readLine());

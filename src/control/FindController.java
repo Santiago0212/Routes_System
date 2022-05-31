@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -37,14 +38,50 @@ public class FindController implements Initializable{
 
     @FXML
     void find(ActionEvent event) {
+    	
     	Main.routes.initDijkstra(Main.routes.search(originTF.getText().toUpperCase()));
+
+
+		Random r = new Random();
+		int number = r.nextInt(Main.buses.get(originTF.getText().toUpperCase()).size());
+		Main.currentBus = Main.buses.get(originTF.getText().toUpperCase()).get(number);
+
     	Tree<String> routesTree = Main.routes.getArbolGeneradorMinimo();
     	ArrayList<String> route = routesTree.getRoute(destinationTF.getText().toUpperCase());
     	
     	String minimum = "";
+    	minimum += "Subirse en ---------> "+Main.currentBus+"\n";
     	for(String s : route) {
+    		if(!Main.buses.get(s).contains(Main.currentBus)) {
+    			Random r2 = new Random();
+    			int number2 = r2.nextInt(Main.buses.get(s).size());	
+    			Main.currentBus = Main.buses.get(s).get(number2);
+    			minimum += "Subirse en ---------> "+Main.currentBus+"\n";
+    		}
 			minimum += s+"\n";
 		}
+    	
+    	int originNumber=0;
+    	int i = 0;
+    	for(String s : Main.buses.keySet()) {
+    		if(originTF.getText().toUpperCase().equalsIgnoreCase(s)) {
+    			originNumber = i;
+    		}
+    		i++;
+    	}
+    	
+    	int destinationNumber=0;
+    	int j = 0;
+    	for(String s : Main.buses.keySet()) {
+    		if(destinationTF.getText().toUpperCase().equalsIgnoreCase(s)) {
+    			destinationNumber = j;
+    		}
+    		j++;
+    	}
+    	
+    	int distance = Main.routes.floyd()[originNumber][destinationNumber];
+    	
+    	minimum += "\nDitancia recorrida ---------> "+distance+" metros\n";
     	
     	minimumTA.setText(minimum);
     	

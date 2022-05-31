@@ -73,7 +73,7 @@ public class AddController {
     @FXML
     void addVertex(ActionEvent event) {
     	if(!vertexText.getText().equals("")) {
-    		Main.routes.addVertex(vertexText.getText());
+    		Main.routes.addVertex(vertexText.getText(),Main.routes.getSize());
 	    	Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		    alert.setHeaderText(null);
 		    alert.setTitle("Agregado");

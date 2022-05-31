@@ -3,9 +3,11 @@ package structures;
 import java.util.ArrayList;
 
 public class Vertex<T> {
-	T value;
-	Color color;
-	Vertex<T> dad;
+	private T value;
+	private Color color;
+	private Vertex<T> dad;
+	
+	int num;
 
 	ArrayList<Vertex<T>> adjacencyList;
 
@@ -30,16 +32,17 @@ public class Vertex<T> {
 		this.f = f;
 	}
 
-	public Vertex(T value) {
+	public Vertex(T value, int num) {
 		this.value = value;
 		this.dad = null;
 		this.adjacencyList = new ArrayList<>();
 		this.adjacencyEdges = new ArrayList<>();
+		this.num = num;
 	}
 	
 	public void addAdjacency(Vertex<T> vertex, int weight) {
 		this.adjacencyList.add(vertex);
-		adjacencyEdges.add(new Edge<T>(new Vertex<T>(getValue()),vertex,weight));
+		adjacencyEdges.add(new Edge<T>(new Vertex<T>(this.getValue(),this.getNum()),vertex,weight));
 	}
 
 	public T getValue() {
@@ -90,8 +93,13 @@ public class Vertex<T> {
 	public void setAdjacencyEdges(ArrayList<Edge<T>> adjacencyEdges) {
 		this.adjacencyEdges = adjacencyEdges;
 	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
 	
-	
-	
-		
 }
