@@ -65,23 +65,9 @@ public class FindController implements Initializable{
 			minimum += s+"\n";
 		}
     	
-    	int originNumber=0;
-    	int i = 0;
-    	for(String s : Main.buses.keySet()) {
-    		if(origin.toUpperCase().equalsIgnoreCase(s)) {
-    			originNumber = i;
-    		}
-    		i++;
-    	}
+    	int originNumber = Main.routes.search(origin.toUpperCase()).getNum();
+    	int destinationNumber= Main.routes.search(destination.toUpperCase()).getNum();
     	
-    	int destinationNumber=0;
-    	int j = 0;
-    	for(String s : Main.buses.keySet()) {
-    		if(destination.toUpperCase().equalsIgnoreCase(s)) {
-    			destinationNumber = j;
-    		}
-    		j++;
-    	}
     	
     	int distance = Main.routes.floyd()[originNumber][destinationNumber];
     	
