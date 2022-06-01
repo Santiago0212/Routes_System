@@ -1,18 +1,23 @@
 package control;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import main.Main;
 
-public class AddController {
+public class AddController implements Initializable{
 
     @FXML
     private Button addVertexButton;
@@ -21,26 +26,34 @@ public class AddController {
     private TextField vertexText;
 
     @FXML
-    private TextField v1Text;
-
-    @FXML
-    private TextField v2Text;
-
-    @FXML
-    private TextField weightText;
+    private TextField weightTF;
 
     @FXML
     private Button addEdgeButton;
+    
+    @FXML
+    private Button returnBTN;
+    
+    @FXML
+    private ChoiceBox<String> v1CB;
+
+    @FXML
+    private ChoiceBox<String> v2CB;
 
     
     @FXML
     void addEdge(ActionEvent event) {
+    	String v1=v1CB.getSelectionModel().getSelectedItem();
+    	String v2=v2CB.getSelectionModel().getSelectedItem();
+    	String weight=weightTF.getText();
+    	
+    	//System.out.println(v1+"---"+v2+"----------"+weight);
 
-    	if(!v1Text.getText().equals("")&&!v2Text.getText().equals("")&&!weightText.getText().equals("")) {
+    	if(v1!=""&&v2!=""&&!weight.equals("")) {
     		
-    		if(Main.routes.search(v1Text.getText())!=null&Main.routes.search(v2Text.getText())!=null)
+    		if(Main.routes.search(v1)!=null&Main.routes.search(v2)!=null)
 	    		try {
-	    			Main.routes.addEdge(v1Text.getText(),v2Text.getText(),Integer.parseInt(weightText.getText()));
+	    			Main.routes.addEdge(v1,v2,Integer.parseInt(weight));
 	    			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 	    		    alert.setHeaderText(null);
 	    		    alert.setTitle("Agregado");
@@ -88,8 +101,6 @@ public class AddController {
 		    alert.showAndWait();
     	}
     }
-    
-
     @FXML
     void back(ActionEvent event) throws IOException {
     	FXMLLoader loader = new FXMLLoader(Main.class.getResource("../ui/Menu.fxml"));
@@ -102,8 +113,17 @@ public class AddController {
     	close();
     }
 
+
     public void close() {
     	Stage stage = (Stage) addVertexButton.getScene().getWindow();
     	stage.close();
     }
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		for(int i=0;i<Main.routes.getElements().size();i++) {
+			v1CB.getItems().add(Main.routes.getElements().get(i).getValue());
+			v2CB.getItems().add(Main.routes.getElements().get(i).getValue());
+		}
+	}
 }

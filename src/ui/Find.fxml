@@ -1,19 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="440.0" style="-fx-background-color: #2965BD;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="findButton" layoutX="259.0" layoutY="163.0" mnemonicParsing="false" onAction="#find" text="Find" />
-      <TextField fx:id="originTF" layoutX="28.0" layoutY="114.0" prefHeight="25.0" prefWidth="231.0" />
-      <Label layoutX="26.0" layoutY="91.0" text="Escribe el nombre de la estacion de origen " />
-      <Button fx:id="returnButton" layoutX="52.0" layoutY="335.0" mnemonicParsing="false" onAction="#back" text="Volver" />
-      <Label layoutX="307.0" layoutY="91.0" text="Escribe el nombre de la estacion de destino" />
-      <TextField fx:id="destinationTF" layoutX="307.0" layoutY="114.0" prefHeight="25.0" prefWidth="231.0" />
-      <TextArea fx:id="minimumTA" layoutX="331.0" layoutY="176.0" prefHeight="200.0" prefWidth="200.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c2d6f7" height="435.0" stroke="#ffffff00" strokeType="INSIDE" width="73.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="435.0" stroke="#182f54" strokeType="INSIDE" strokeWidth="4.0" width="440.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c2d6f7" height="218.0" layoutX="97.0" layoutY="163.0" stroke="#ffffff00" strokeType="INSIDE" width="318.0" />
+      <Button fx:id="findButton" layoutX="220.0" layoutY="117.0" mnemonicParsing="false" onAction="#find" style="-fx-background-color: #0F408D;" text="Buscar" textFill="#c2d6f7">
+         <font>
+            <Font name="Lucida Bright Demibold" size="15.0" />
+         </font></Button>
+      <Button fx:id="returnBTN" layoutX="355.0" layoutY="392.0" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #0F408D;" text="Volver" textFill="#c2d6f7">
+         <font>
+            <Font name="Lucida Bright Demibold" size="15.0" />
+         </font></Button>
+      <TextArea fx:id="minimumTA" layoutX="106.0" layoutY="172.0" prefHeight="200.0" prefWidth="301.0">
+         <font>
+            <Font name="Lucida Bright Demibold" size="15.0" />
+         </font></TextArea>
+      <ChoiceBox fx:id="originCB" layoutX="95.0" layoutY="76.0" prefWidth="150.0" style="-fx-background-color: #c2d6f7;" />
+      <ChoiceBox fx:id="destinationCB" layoutX="268.0" layoutY="76.0" prefWidth="150.0" style="-fx-background-color: #c2d6f7;" />
+      <Label layoutX="95.0" layoutY="49.0" text="Estacion Inicial:" textFill="#c2d6f7">
+         <font>
+            <Font name="Lucida Bright Demibold" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="268.0" layoutY="49.0" text="Estacion Final:" textFill="#c2d6f7">
+         <font>
+            <Font name="Lucida Bright Demibold" size="15.0" />
+         </font>
+      </Label>
+      <Ellipse fill="#dd0d27" layoutX="415.0" layoutY="29.0" radiusX="13.0" radiusY="15.0" stroke="#dd0d27" strokeType="INSIDE" />
+      <Ellipse fill="#2495c8" layoutX="362.0" layoutY="33.0" radiusX="9.0" radiusY="11.0" stroke="#2495c8" strokeType="INSIDE" />
+      <Ellipse fill="#179a55" layoutX="387.0" layoutY="31.0" radiusX="11.0" radiusY="13.0" stroke="#179a55" strokeType="INSIDE" />
    </children>
 </AnchorPane>

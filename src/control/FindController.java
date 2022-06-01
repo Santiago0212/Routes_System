@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -21,8 +22,6 @@ import structures.Tree;
 
 public class FindController implements Initializable{
 
-    @FXML
-    private TextField destinationTF;
 
     @FXML
     private Button findButton;
@@ -31,23 +30,28 @@ public class FindController implements Initializable{
     private TextArea minimumTA;
 
     @FXML
-    private TextField originTF;
+    private Button returnBTN;
+    
+    @FXML
+    private ChoiceBox<String> originCB;
 
     @FXML
-    private Button returnButton;
+    private ChoiceBox<String> destinationCB;
 
     @FXML
     void find(ActionEvent event) {
+    	String origin=originCB.getSelectionModel().getSelectedItem();
+    	String destination=destinationCB.getSelectionModel().getSelectedItem();
     	
-    	Main.routes.initDijkstra(Main.routes.search(originTF.getText().toUpperCase()));
+    	Main.routes.initDijkstra(Main.routes.search(origin.toUpperCase()));
 
 
 		Random r = new Random();
-		int number = r.nextInt(Main.buses.get(originTF.getText().toUpperCase()).size());
-		Main.currentBus = Main.buses.get(originTF.getText().toUpperCase()).get(number);
+		int number = r.nextInt(Main.buses.get(origin.toUpperCase()).size());
+		Main.currentBus = Main.buses.get(origin.toUpperCase()).get(number);
 
     	Tree<String> routesTree = Main.routes.getArbolGeneradorMinimo();
-    	ArrayList<String> route = routesTree.getRoute(destinationTF.getText().toUpperCase());
+    	ArrayList<String> route = routesTree.getRoute(destination.toUpperCase());
     	
     	String minimum = "";
     	minimum += "Subirse en ---------> "+Main.currentBus+"\n";
@@ -64,7 +68,7 @@ public class FindController implements Initializable{
     	int originNumber=0;
     	int i = 0;
     	for(String s : Main.buses.keySet()) {
-    		if(originTF.getText().toUpperCase().equalsIgnoreCase(s)) {
+    		if(origin.toUpperCase().equalsIgnoreCase(s)) {
     			originNumber = i;
     		}
     		i++;
@@ -73,7 +77,7 @@ public class FindController implements Initializable{
     	int destinationNumber=0;
     	int j = 0;
     	for(String s : Main.buses.keySet()) {
-    		if(destinationTF.getText().toUpperCase().equalsIgnoreCase(s)) {
+    		if(destination.toUpperCase().equalsIgnoreCase(s)) {
     			destinationNumber = j;
     		}
     		j++;
@@ -106,6 +110,10 @@ public class FindController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		for(int i=0;i<Main.routes.getElements().size();i++) {
+			originCB.getItems().add(Main.routes.getElements().get(i).getValue());
+			destinationCB.getItems().add(Main.routes.getElements().get(i).getValue());
+		}
 		minimumTA.setText("");
 		
 	}
