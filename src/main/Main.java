@@ -52,7 +52,7 @@ public class Main extends Application {
 	public static Graph<String> createGraph() throws IOException {
 		Graph<String> myGraph = new Graph<>();
 	
-		File data = new File("stations.txt");
+		File data = new File("stations.csv");
 	
 		BufferedReader bf = new BufferedReader(new FileReader(data));
 	
