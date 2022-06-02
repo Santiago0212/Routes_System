@@ -78,6 +78,7 @@ public class Graph<T extends Comparable<T>> {
 			if(v.getValue().compareTo(value)==0) {
 				founded = true;
 				vertex = v;
+				break;
 			}
 		}
 		if(founded) {
@@ -168,7 +169,7 @@ public class Graph<T extends Comparable<T>> {
             Vertex<T> aux=current.getAdjacencyList().get(i);
 
 
-            int distanciaActual=distancias.get(current);
+            int distanciaActual=distancias.get(current);	
 
             int weight=getWeight(current, aux);
 

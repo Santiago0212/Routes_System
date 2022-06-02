@@ -52,8 +52,8 @@ public class MenuController {
     void show(ActionEvent event) {
     	Main.routes.printEdges();
 	
-		ArrayList<Edge<String>> arregloCamino= new ArrayList<Edge<String>>();
-		arregloCamino=Main.routes.getArregloCamino();
+		/*ArrayList<Edge<String>> arregloCamino= new ArrayList<Edge<String>>();
+		arregloCamino=Main.routes.getArregloCamino();*/
 		
     }
     
