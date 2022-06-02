@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import control.MenuController;
@@ -16,11 +14,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Station;
-import structures.Edge;
 import structures.Graph;
-import structures.Node;
-import structures.Tree;
+
 
 public class Main extends Application {
 	
